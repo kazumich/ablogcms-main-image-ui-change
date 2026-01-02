@@ -1,0 +1,71 @@
+@extends("/admin/_layouts/entry/edit.html")
+
+
+@section("entry-status")
+<tr id="entry-status-display">
+  <th id="labelStatus">
+    <label for="entry-status" id="entry-status-label">
+      <!--T-->ステータス<!--/T-->
+    </label>
+  </th>
+  <td>
+    <select id="entry-status" name="status" class="js-select2">
+      <option value="draft" {status:selected#draft}><!--T-->下書き<!--/T--></option>
+      <option value="open" {status:selected#open}><!--T-->公開<!--/T--></option>
+      <option value="close" {status:selected#close}><!--T-->非公開<!--/T--></option>
+      <option value="trash" {status:selected#trash}><!--T-->ゴミ箱<!--/T--></option>
+    </select>
+    <input type="hidden" name="entry[]" value="status" />
+    <input type="hidden" name="status:validator#category" id="validator-status-category" />
+    <div role="alert" aria-live="assertive">
+      <div data-validator-label="validator-status-category" class="validator-result-{status:validator#category}">
+        <p class="error-text">
+          <span class="acms-admin-icon acms-admin-icon-attention" aria-hidden="true"></span>
+          <!--T-->カテゴリーが非公開の記事は公開できません。<!--/T-->
+        </p>
+      </div>
+    </div>
+  </td>
+  <td class="js-media-field seo-entry_main_image-droparea" id="main-image-custom">
+    メイン画像：
+    <div class="js-droparea" data-thumbnail="{entry_main_image@thumbnail}" data-type="image" style="width:200px"></div>
+    <p class="js-text acms-admin-text-danger" style="display:none">許可されていないファイルのため挿入できません。</p>
+    <div class="acms-admin-margin-top-mini">
+    <button type="button" class="js-insert acms-admin-btn" data-type="image">メディアを選択</button>
+    </div>
+    <input type="hidden" name="entry_main_image" value="{entry_main_image}" class="js-value js-block-editor-set-main-image" />
+    <input type="hidden" name="field[]" value="entry_main_image" />
+    <input type="hidden" name="entry_main_image:extension" value="media" />
+  </td>
+</tr>
+@endsection
+
+
+@section("entry-title")
+<tr id="entry-title-display">
+  <th id="labelTitle">
+    <label for="entry-title" id="entry-title-label">
+      <!--T-->タイトル<!--/T-->
+    </label>
+  </th>
+  <td>
+    <textarea name="title" id="entry-title" class="acms-admin-form-width-full js-no-newline auto-height">{title}</textarea>
+    <input type="hidden" name="entry[]" value="title" />
+    <input type="hidden" name="title:validator#required" id="validator-title-required" />
+    <div role="alert" aria-live="assertive">
+      <div data-validator-label="validator-title-required" class="validator-result-{title:validator#required}">
+        <p class="error-text">
+          <span class="acms-admin-icon acms-admin-icon-attention" aria-hidden="true"></span>
+          <!--T-->タイトルが入力されていません。<!--/T-->
+        </p>
+      </div>
+    </div>
+  </td>
+</tr>
+@endsection
+
+@section("entry-field")
+<script src="/js/main-image-ui-change.js"></script>
+<link rel="stylesheet" href="/css/main-image-ui-change.css">
+@parent
+@endsection
